@@ -49,7 +49,7 @@ def main():
     #in this portion, define which method you want to use. See the methods below for descriptions and parameters that you might need to change.
 ##    geocodeParsedTable()
 ##    geocodeSingleLineInputTable()
-##    geocodeHardcodedAddresses()
+    geocodeHardcodedAddresses()
     ##################################
 
 #use this example if you want to geocode a table of addresses that has a single line input. This will add coordinates to your table.
@@ -102,10 +102,10 @@ def geocodeHardcodedAddresses():
         address = {}
 
         #single line input example
-        address['SingleLine'] = '2020 SW 32nd Street, Topeka, KS 66611'
-        xy = geoCodeAddress(address)
-        if xy != None:
-            print str(xy[0]) + ' ' + str(xy[1])
+##        address['SingleLine'] = '2020 SW 32nd Street, Topeka, KS 66611'
+##        xy = geoCodeAddress(address)
+##        if xy != None:
+##            print str(xy[0]) + ' ' + str(xy[1])
 
         #parsed examples
         address['Street'] =  '2020 SW 32nd Street'
@@ -136,6 +136,14 @@ def geocodeHardcodedAddresses():
         address['City'] = 'Manhattan'
         address['State']= 'KS'
         address['Zip']= '66502'
+        xy = geoCodeAddress(address)
+        if xy != None:
+            print str(xy[0]) + ' ' + str(xy[1]) + ' ' + address['Street'] + ' ' + address['City']
+
+        address['Street'] =  '2800 SW TOPEKA BLVD'
+        address['City'] = 'TOPEKA'
+        address['State']= 'KS'
+        address['Zip']= '66611'
         xy = geoCodeAddress(address)
         if xy != None:
             print str(xy[0]) + ' ' + str(xy[1]) + ' ' + address['Street'] + ' ' + address['City']
@@ -222,7 +230,15 @@ def geoCodeAddress(address):
         if 'candidates' in result:
             candidates = result['candidates']
             if (len(candidates) > 0):
-                first = candidates[0]
+                # evaluate the candidates to see which one has the highest score
+                topScore = 0
+                for c in candidates:
+                    score = float(c['score'])
+                    if score > topScore:
+                        # if the candidate score is higher than any other
+                        # current scores, replace the topScore and first candidate
+                        topScore = score
+                        first = c
             else:
                 first = None
             ##print 'first is', first
