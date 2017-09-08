@@ -40,7 +40,7 @@ from arcpy.da import UpdateCursor
 
 def getGeocodeURL():
     #change the url if you want to use a different geocoding service
-    url = r'http://services.kansasgis.org/arcgis4/rest/services/Geocoders/KS_Geocoder/GeocodeServer/findAddressCandidates?'
+    url = r'http://services.kansasgis.org/arcgis4/rest/services/Geocoders/KS_Geocoder_XY/GeocodeServer/findAddressCandidates?'
     return url
 
 def main():
